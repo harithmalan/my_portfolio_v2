@@ -1,10 +1,11 @@
-const BIRDS = [
-  { top: '12%', duration: 38, delay: 0, scale: 0.7, opacity: 0.4, flap: 0.42 },
-  { top: '22%', duration: 46, delay: 6, scale: 0.5, opacity: 0.3, flap: 0.36 },
-  { top: '8%', duration: 52, delay: 14, scale: 0.9, opacity: 0.35, flap: 0.5 },
-  { top: '30%', duration: 34, delay: 20, scale: 0.4, opacity: 0.25, flap: 0.3 },
-  { top: '18%', duration: 60, delay: 3, scale: 0.6, opacity: 0.32, flap: 0.4 },
-  { top: '40%', duration: 44, delay: 26, scale: 0.55, opacity: 0.28, flap: 0.34 },
+const FEATHERS = [
+  { left: '6%', duration: 26, delay: 0, scale: 0.8, opacity: 0.4, sway: 30 },
+  { left: '18%', duration: 32, delay: 8, scale: 0.55, opacity: 0.3, sway: 45 },
+  { left: '32%', duration: 22, delay: 14, scale: 0.65, opacity: 0.35, sway: 25 },
+  { left: '52%', duration: 30, delay: 4, scale: 0.7, opacity: 0.3, sway: 40 },
+  { left: '68%', duration: 24, delay: 18, scale: 0.5, opacity: 0.28, sway: 35 },
+  { left: '82%', duration: 34, delay: 10, scale: 0.75, opacity: 0.32, sway: 28 },
+  { left: '92%', duration: 27, delay: 22, scale: 0.5, opacity: 0.26, sway: 38 },
 ]
 
 const ORBS = [
@@ -13,23 +14,26 @@ const ORBS = [
   { left: '40%', top: '75%', size: 300, duration: 25, delay: 8 },
 ]
 
-function Bird({ top, duration, delay, scale, opacity, flap }) {
+function Feather({ left, duration, delay, scale, opacity, sway }) {
   return (
-    <div
-      className="ambient-bird"
+    <svg
+      viewBox="0 0 40 90"
+      className="ambient-feather"
       style={{
-        top,
-        width: 64 * scale,
+        left,
+        width: 40 * scale,
         opacity,
         animationDuration: `${duration}s`,
         animationDelay: `${delay}s`,
+        '--sway': `${sway}px`,
       }}
     >
-      <svg viewBox="0 0 64 32" className="wing-flap" style={{ animationDuration: `${flap}s` }}>
-        <path className="frame-open" d="M2 20 Q16 2 32 14 Q48 2 62 20 Q48 12 32 20 Q16 12 2 20 Z" fill="var(--accent)" />
-        <path className="frame-closed" d="M6 18 Q18 12 32 16 Q46 12 58 18 Q46 15 32 17 Q18 15 6 18 Z" fill="var(--accent)" />
-      </svg>
-    </div>
+      <path
+        d="M20 2 C26 18 30 34 24 54 C34 46 38 34 36 22 C40 34 39 50 30 60 C24 76 21 84 20 88 C19 84 16 76 10 60 C1 50 0 34 4 22 C2 34 6 46 16 54 C10 34 14 18 20 2 Z"
+        fill="var(--accent)"
+      />
+      <line x1="20" y1="10" x2="20" y2="86" stroke="var(--bg)" strokeWidth="0.6" opacity="0.5" />
+    </svg>
   )
 }
 
@@ -50,40 +54,24 @@ export default function AmbientBackground() {
           }}
         />
       ))}
-      {BIRDS.map((b, i) => (
-        <Bird key={i} {...b} />
-      ))}
+      {/* {FEATHERS.map((f, i) => (
+        <Feather key={i} {...f} />
+      ))} */}
 
       <style>{`
-        .ambient-bird {
+        .ambient-feather {
           position: absolute;
-          left: -10%;
-          animation-name: flyAcross;
-          animation-timing-function: linear;
+          top: -8%;
+          animation-name: featherFall;
+          animation-timing-function: ease-in-out;
           animation-iteration-count: infinite;
         }
-        @keyframes flyAcross {
-          0% { transform: translate(0, 0); }
-          50% { transform: translate(60vw, -30px); }
-          100% { transform: translate(130vw, 10px); }
-        }
-        .wing-flap {
-          display: block;
-          overflow: visible;
-        }
-        .wing-flap .frame-open,
-        .wing-flap .frame-closed {
-          animation-name: flap;
-          animation-timing-function: steps(1, end);
-          animation-iteration-count: infinite;
-          animation-duration: inherit;
-        }
-        .wing-flap .frame-closed {
-          animation-direction: reverse;
-        }
-        @keyframes flap {
-          0%, 49% { opacity: 1; }
-          50%, 100% { opacity: 0; }
+        @keyframes featherFall {
+          0% { transform: translate(0, 0) rotate(-8deg); }
+          25% { transform: translate(var(--sway), 25vh) rotate(10deg); }
+          50% { transform: translate(0, 50vh) rotate(-6deg); }
+          75% { transform: translate(calc(var(--sway) * -1), 75vh) rotate(12deg); }
+          100% { transform: translate(0, 112vh) rotate(-8deg); }
         }
         .ambient-orb {
           position: absolute;
@@ -99,7 +87,7 @@ export default function AmbientBackground() {
           50% { transform: translate(4%, -6%) scale(1.08); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .ambient-bird, .ambient-orb, .wing-flap .frame-open, .wing-flap .frame-closed { animation: none; }
+          .ambient-feather, .ambient-orb { animation: none; }
         }
       `}</style>
     </div>

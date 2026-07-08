@@ -1,9 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GraduationCap, Camera, Swords, Newspaper } from 'lucide-react'
 import SectionLabel from '../components/SectionLabel'
+import BookModel from '../components/three/BookModel'
+import AssetErrorBoundary from '../components/AssetErrorBoundary'
+import FloatingArt from '../components/FloatingArt'
+
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -62,38 +66,47 @@ export default function Education() {
   }, [])
 
   return (
-    <section id="education" className="relative py-28 md:py-40 px-6 md:px-10 max-w-6xl mx-auto">
+    <section id="education" className="relative py-20 md:py-28 px-6 md:px-10 max-w-6xl mx-auto">
       <SectionLabel index={4} total={6} title="Education & Achievements" />
 
-      <div ref={trackRef} className="relative pl-14 md:pl-20 mb-20">
-        <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ background: 'var(--line)' }} />
-        <div ref={fillRef} className="absolute left-4 md:left-8 top-0 w-px" style={{ background: 'var(--accent)', boxShadow: '0 0 8px var(--accent)' }} />
+      <div className="lg:flex lg:gap-10 items-start">
+        <div ref={trackRef} className="relative pl-14 md:pl-20 mb-14 lg:flex-1">
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ background: 'var(--line)' }} />
+          <div ref={fillRef} className="absolute left-4 md:left-8 top-0 w-px" style={{ background: 'var(--accent)', boxShadow: '0 0 8px var(--accent)' }} />
 
-        <div className="flex flex-col gap-14 md:gap-16">
-          {EDUCATION.map((item) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.55 }}
-              className="relative group"
-              data-cursor-hover
-            >
-              <div
-                className="absolute -left-[3.15rem] md:-left-[4.65rem] top-0 w-8 h-8 md:w-9 md:h-9 rounded-full border flex items-center justify-center transition-colors duration-300"
-                style={{ borderColor: 'var(--line)', background: 'var(--bg)', color: 'var(--accent)' }}
+          <div className="flex flex-col gap-14 md:gap-16">
+            {EDUCATION.map((item) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.55 }}
+                className="relative group"
+                data-cursor-hover
               >
-                <GraduationCap size={15} strokeWidth={1.7} />
-              </div>
-              <p className="font-mono text-xs tracking-widest mb-1" style={{ color: 'var(--accent)' }}>{item.period}</p>
-              <h4 className="font-display text-xl md:text-2xl mb-2 transition-transform duration-300 group-hover:translate-x-1">
-                {item.title}
-              </h4>
-              <p className="max-w-xl text-sm md:text-base" style={{ color: 'var(--muted)' }}>{item.body}</p>
+                <div
+                  className="absolute -left-[3.15rem] md:-left-[4.65rem] top-0 w-8 h-8 md:w-9 md:h-9 rounded-full border flex items-center justify-center transition-colors duration-300"
+                  style={{ borderColor: 'var(--line)', background: 'var(--bg)', color: 'var(--accent)' }}
+                >
+                  <GraduationCap size={15} strokeWidth={1.7} />
+                </div>
+                <p className="font-mono text-xs tracking-widest mb-1" style={{ color: 'var(--accent)' }}>{item.period}</p>
+                <h4 className="font-display text-xl md:text-2xl mb-2 transition-transform duration-300 group-hover:translate-x-1">
+                  {item.title}
+                </h4>
+                <p className="max-w-xl text-sm md:text-base" style={{ color: 'var(--muted)' }}>{item.body}</p>
             </motion.div>
           ))}
+          </div>
         </div>
+
+        <FloatingArt
+                src="/art/face.png"
+                width={350}
+                delay={0.2}
+                className="absolute -right-1.5 -top-0.9 -bottom-0.9 z-0 opacity-75"
+              />
       </div>
 
       <p className="font-mono text-[10px] tracking-widest uppercase mb-6" style={{ color: 'var(--muted)' }}>

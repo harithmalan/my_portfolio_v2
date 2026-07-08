@@ -4,6 +4,7 @@ import { Download, Send, Phone } from 'lucide-react'
 import SectionLabel from '../components/SectionLabel'
 import { GithubIcon, LinkedinIcon, InstagramIcon } from '../components/BrandIcons'
 import LocationMap from '../components/LocationMap'
+import FloatingArt from '../components/FloatingArt'
 import { CV_URL, SOCIAL_LINKS, CONTACT } from '../lib/constants'
 
 const SOCIALS = [
@@ -23,18 +24,51 @@ function WhatsAppIcon(props) {
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name || 'a visitor'}`)
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
-    window.location.href = `mailto:${SOCIAL_LINKS.email}?subject=${subject}&body=${body}`
+    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY
+
+    if (!accessKey) {
+      // Fallback so the form still does *something* useful if the key
+      // hasn't been set up yet — see .env.example / README.
+      const subject = encodeURIComponent(`Portfolio inquiry from ${form.name || 'a visitor'}`)
+      const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
+      window.location.href = `mailto:${SOCIAL_LINKS.email}?subject=${subject}&body=${body}`
+      return
+    }
+
+    setStatus('sending')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `Portfolio inquiry from ${form.name || 'a visitor'}`,
+          from_name: form.name,
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('sent')
+        setForm({ name: '', email: '', message: '' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
-    <section id="contact" className="relative py-28 md:py-40 px-6 md:px-10 max-w-6xl mx-auto">
+    <section id="contact" className="relative py-20 md:py-28 px-6 md:px-10 max-w-6xl mx-auto">
       <SectionLabel index={6} total={6} title="Contact" />
 
       <div className="grid md:grid-cols-12 gap-10 md:gap-6">
@@ -135,13 +169,28 @@ export default function Contact() {
           </FormField>
           <button
             type="submit"
+            disabled={status === 'sending'}
             data-cursor-hover
-            className="relative inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase px-7 py-3.5 rounded-full transition-transform hover:scale-105"
+            className="relative inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase px-7 py-3.5 rounded-full transition-transform hover:scale-105 disabled:opacity-60"
             style={{ background: 'var(--accent)', color: '#0d0c0a' }}
           >
-            Send Message <Send size={13} />
+            {status === 'sending' ? 'Sending…' : 'Send Message'} <Send size={13} />
           </button>
-
+          {status === 'sent' && (
+            <p className="mt-4 text-sm" style={{ color: 'var(--accent)' }}>Thanks — your message is on its way.</p>
+            
+          )}
+          {status === 'error' && (
+            <p className="mt-4 text-sm" style={{ color: '#f87171' }}>
+              Something went wrong. Try again, or email me directly at {SOCIAL_LINKS.email}.
+            </p>
+          )}
+<FloatingArt
+        src="/art/cosmic-statue.png"
+        width={360}
+        delay={0.2}
+        className="absolute -right-4 -bottom-13 z-0 opacity-75"
+      />
           <style>{`
             .contact-input {
               width: 100%;

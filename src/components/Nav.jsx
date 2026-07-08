@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Menu, X, Download } from 'lucide-react'
 import { GithubIcon, LinkedinIcon, InstagramIcon } from './BrandIcons'
 import { CV_URL, SOCIAL_LINKS } from '../lib/constants'
@@ -90,15 +90,17 @@ export default function Nav() {
         </div>
       </motion.nav>
 
-      <AnimatePresence>
-        {open && (
+      {open && (
           <motion.div
+            key="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-40 md:hidden flex flex-col items-center justify-center gap-8"
             style={{ background: 'var(--bg)' }}
+            role="dialog"
+            aria-modal="true"
           >
             {LINKS.map((l, i) => (
               <motion.a
@@ -137,7 +139,6 @@ export default function Nav() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
     </>
   )
 }

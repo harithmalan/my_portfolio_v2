@@ -30,7 +30,7 @@ export default function Hero() {
           className="font-mono text-[11px] md:text-xs tracking-[0.4em] uppercase mb-8"
           style={{ color: 'var(--accent)' }}
         >
-          Software Developer — Graphic Designer
+          Software Developer - Graphic Designer
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -47,7 +47,7 @@ export default function Hero() {
           className="mt-6 max-w-xl text-base md:text-lg"
           style={{ color: 'var(--muted)' }}
         >
-          I build interfaces and systems that feel considered — full‑stack
+          I build interfaces and systems that feel considered - full‑stack
           products, custom illustration, and everything in the space between.
         </motion.p>
         <motion.div

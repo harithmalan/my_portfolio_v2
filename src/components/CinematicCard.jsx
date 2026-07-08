@@ -4,7 +4,16 @@ export default function CinematicCard({ project, index }) {
   return (
     <div className="relative shrink-0 w-[78vw] sm:w-[420px] md:w-[480px] h-[520px] md:h-[560px] group" data-cursor-hover>
       <ParallaxPanel className="w-full h-full" image={project.image}>
-        <div className="h-full flex flex-col justify-between p-7 md:p-8">
+        {/* Project-specific bottom-to-top fade — sits above the image, below the text,
+            so bright screenshots never wash out the title/tags/links. */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-[78%] pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(13,12,10,0.96) 0%, rgba(13,12,10,0.86) 28%, rgba(13,12,10,0.55) 58%, rgba(13,12,10,0.1) 85%, transparent 100%)',
+          }}
+        />
+        <div className="relative h-full flex flex-col justify-between p-7 md:p-8">
           <div className="flex items-start justify-between">
             <span className="font-mono text-xs tracking-widest" style={{ color: 'var(--accent)' }}>
               {String(index + 1).padStart(2, '0')}
@@ -23,7 +32,9 @@ export default function CinematicCard({ project, index }) {
             {project.tagline && (
               <p className="font-mono text-xs mb-2 tracking-wide" style={{ color: 'var(--accent)' }}>{project.tagline}</p>
             )}
-            <h3 className="font-display text-3xl md:text-4xl mb-3 leading-tight">{project.title}</h3>
+            <h3 className="font-display text-3xl md:text-4xl mb-3 leading-tight" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}>
+              {project.title}
+            </h3>
             <p
               className="text-sm leading-relaxed mb-5 max-w-sm opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-24 transition-all duration-500 overflow-hidden"
               style={{ color: 'var(--muted)' }}
@@ -36,7 +47,7 @@ export default function CinematicCard({ project, index }) {
                   <span
                     key={t}
                     className="font-mono text-[10px] px-2 py-1 rounded-full border backdrop-blur-sm"
-                    style={{ borderColor: 'rgba(243,239,232,0.2)', color: 'var(--text)' }}
+                    style={{ borderColor: 'rgba(243,239,232,0.25)', color: 'var(--text)', background: 'rgba(13,12,10,0.35)' }}
                   >
                     {t}
                   </span>

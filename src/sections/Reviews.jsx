@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MessageSquarePlus } from 'lucide-react'
 import SectionLabel from '../components/SectionLabel'
 import ReviewCard from '../components/ReviewCard'
 import ReviewForm from '../components/ReviewForm'
+import FloatingArt from '../components/FloatingArt'
+import AssetErrorBoundary from '../components/AssetErrorBoundary'
+import ButterflyModel from '../components/three/ButterflyModel'
 import { supabase, supabaseEnabled } from '../lib/supabase'
 import { fallbackReviews } from '../lib/reviewsData'
 
@@ -36,7 +39,7 @@ export default function Reviews() {
   }, [])
 
   return (
-    <section id="reviews" className="relative py-28 md:py-40 px-6 md:px-10 max-w-6xl mx-auto">
+    <section id="reviews" className="relative py-20 md:py-28 px-6 md:px-10 max-w-6xl mx-auto overflow-hidden">
       <SectionLabel index={5} total={6} title="Reviews" />
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -82,6 +85,15 @@ export default function Reviews() {
           ))}
         </div>
       )}
+
+      
+      {/* <div className="hidden lg:block absolute left-0 bottom-0 w-100 h-100 z-0 pointer-events-none opacity-90">
+        <AssetErrorBoundary>
+          <Suspense fallback={null}>
+            <ButterflyModel />
+          </Suspense>
+        </AssetErrorBoundary>
+      </div> */}
     </section>
   )
 }

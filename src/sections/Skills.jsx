@@ -4,6 +4,7 @@ import { Code2, Server, Palette, Database, GitBranch, Smartphone, Users, Clock, 
 import SectionLabel from '../components/SectionLabel'
 import SkillCard from '../components/SkillCard'
 import DecorativeCore from '../components/three/DecorativeCore'
+import FloatingArt from '../components/FloatingArt'
 
 const CATEGORIES = ['All', 'Development', 'Design', 'Soft Skills']
 
@@ -33,7 +34,7 @@ export default function Skills() {
   )
 
   return (
-    <section id="skills" className="relative py-28 md:py-40 px-6 md:px-10 max-w-6xl mx-auto">
+    <section id="skills" className="relative py-200 md:py-8 px-6 md:px-10 max-w-6xl mx-auto overflow-hidden">
       <SectionLabel index={2} total={6} title="Skills" />
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -78,6 +79,13 @@ export default function Skills() {
           ))}
         </div>
       </div>
+{/* 
+      <FloatingArt
+        src="/art/ring-statue.png"
+        width={250}
+        delay={0.15}
+        className="absolute -right-4 left-100 -bottom-35 z-100 opacity-270"
+      /> */}
     </section>
   )
 }

@@ -28,14 +28,14 @@ export default function Projects() {
   }, [])
 
   return (
-    <section id="projects" className="relative py-28 md:py-40 px-6 md:px-10 max-w-6xl mx-auto">
+    <section id="projects" className="relative py-20 md:py-28 px-6 md:px-10 max-w-6xl mx-auto">
       <SectionLabel index={3} total={6} title="Selected Work" />
       <div className="flex items-end justify-between mb-12 gap-6">
         <h3 className="font-display text-3xl md:text-5xl tracking-tight max-w-xl leading-tight">
           Projects across product, commerce, and interaction design.
         </h3>
         <p className="hidden md:block font-mono text-[10px] tracking-widest uppercase shrink-0" style={{ color: 'var(--muted)' }}>
-          Drag to explore →
+          Scroll or drag →
         </p>
       </div>
       {loading ? (

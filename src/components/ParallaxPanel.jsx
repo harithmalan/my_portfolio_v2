@@ -51,7 +51,7 @@ export default function ParallaxPanel({ className = '', children, image }) {
         style={{
           backgroundImage: image
             ? `url(${image})`
-            : 'radial-gradient(circle at 30% 20%, rgba(201,164,106,0.35), transparent 55%), radial-gradient(circle at 75% 80%, rgba(143,107,82,0.3), transparent 50%), linear-gradient(160deg, #1c1916, #0d0c0a)',
+            : 'radial-gradient(circle at 30% 20%, rgba(201,164,106,0.55), transparent 55%), radial-gradient(circle at 75% 80%, rgba(143,107,82,0.45), transparent 50%), linear-gradient(160deg, #2a2419, #0d0c0a)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
