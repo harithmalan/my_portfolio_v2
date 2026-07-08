@@ -17,8 +17,8 @@ export const CONTACT = {
 // doesn't carry the actual link destinations, only the visible "LinkedIn" text.
 export const SOCIAL_LINKS = {
   github: 'https://github.com/harithmalan',
-  linkedin: 'https://linkedin.com/in/harithmalan',
-  instagram: 'https://instagram.com/harithmalan',
+  linkedin: 'https://www.linkedin.com/in/harith-malan-1b7193320',
+  instagram: 'https://instagram.com/harith.4.real',
   email: CONTACT.email,
 }
 
